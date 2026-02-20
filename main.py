@@ -1,18 +1,21 @@
+# git init
+# git add . 
+# git commit -m
 import time
 import os
 import random
 from colorama import init, Fore, Style
 from models import Robot, WarRobot, MedicRobot
-from storage import load_army_robot, save_army_robot, take_random_MedicRobot, take_random_Robot, take_random_WarRobot, take_alive_robots, take_random_target
+from storage import load_army_robot, save_army_robot, take_random_MedicRobot, take_random_WarRobot, take_alive_robots, take_random_target
 
 init(autoreset=True)
 army: list[Robot] = load_army_robot()
 
 if not army:
     for i in range(1,6):
-        army.append(WarRobot(f"Terminator-{i}", "T-800", "Gun"))
-        army.append(WarRobot(f"Predator-{i}", "Hunter", "Blade"))
-        army.append(MedicRobot(f"Doc-{i}", "Healer"))
+        army.append(WarRobot(f"Terminator-{i}", "Gun"))
+        army.append(WarRobot(f"Predator-{i}", "Blade"))
+        army.append(MedicRobot(f"Doc-{i}"))
         
     save_army_robot(army)
     

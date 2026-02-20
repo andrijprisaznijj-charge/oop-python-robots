@@ -1,8 +1,10 @@
 class Robot:
     
-    def __init__(self, name, model,):
+    def __init__(self, name):
         self.name = name
-        self.model = model
+        
+        self.weapon = 0
+        self.heal = 0
                 
         self._battery = 100
         self._health = 100
@@ -34,7 +36,7 @@ class Robot:
             self._battery = amount
             
     def __str__(self):
-        return f"Робот: {self.name} | Модель: {self.model} | Заряд: {self.battery} | Здоровя: {self.health}"
+        return f"Робот: {self.name} | Заряд: {self.battery} | Здоровя: {self.health}"
     
     def say_hello(self):
         print(f"Привіт, мене звати {self.name}")
@@ -65,13 +67,14 @@ class Robot:
             
 class WarRobot(Robot):
     
-    def __init__(self, name, model, weapon):
-        super().__init__(name, model)
+    def __init__(self, name, weapon):
+        super().__init__(name)
         
         self.weapon = weapon
+        self.heal = 0
         
     def __str__(self):
-        return f"Робот: {self.name} | Модель: {self.model} | Здоровя: {self.health} \n Заряд: {self.battery} | Зброя: {self.weapon}"
+        return f"Робот: {self.name}| Здоровя: {self.health} \n Заряд: {self.battery} | Зброя: {self.weapon}"
         
     def attack(self, other_robot: 'Robot'):
         if other_robot.health <= 0:
@@ -85,11 +88,14 @@ class WarRobot(Robot):
                 print(f"{self.name} вбив {other_robot.name}")
                 
 class MedicRobot(Robot):
-    def __init__(self, name, model):
-        super().__init__(name, model)
+    def __init__(self, name):
+        super().__init__(name)
+        
+        self.heal = 10
+        self.weapon = 0
     
     def __str__(self):
-        return f"Робот: {self.name} | Модель: {self.model} | Здоровя: {self.health} \n Заряд: {self.battery} | Здатність лікувати: 10"
+        return f"Робот: {self.name}| Здоровя: {self.health} \n Заряд: {self.battery} | Здатність лікувати: 10"
        
      
     def heal_robot(self, other_robot: 'Robot'):
