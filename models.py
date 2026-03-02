@@ -1,3 +1,6 @@
+from logger import write_log
+import random
+
 class Robot:
     
     def __init__(self, name):
@@ -80,13 +83,29 @@ class WarRobot(Robot):
         if other_robot.health <= 0:
             print(f"{other_robot.name} уже мертвий, нашо бєш далі")
             return
+                        
+        dodge_chance = random.randint(1, 100)
+        if dodge_chance < 20:
+            print(f"{other_robot.name} ухилився від атаки)))")
+            write_log(f"{other_robot.name} ухилився від атаки))) \n")
+            return
+        
+        crit_chance = random.randint(1, 100)
+        if crit_chance < 10:
+            other_robot.health -= 40
+            if other_robot.health > 0:
+                print(f"{self.name} НАНІС 40 ШКОДИ КРІТ УДАРОМ {other_robot.name}, у нього залишилось {other_robot.health} здоровя")
+                write_log(f"{self.name} НАНІС 40 ШКОДИ КРІТ УДАРОМ {other_robot.name}, у нього залишилось {other_robot.health} здоровя \n")
+            else:
+                print(f"{self.name} вбив {other_robot.name}")
+                write_log(f"{self.name} вбив {other_robot.name} \n")
+            return
         else:
             other_robot.health -= 20
             if other_robot.health > 0:
                 print(f"{self.name} наніс 20 шкоди {other_robot.name}, у нього залишилось {other_robot.health} здоровя")
-            else:
-                print(f"{self.name} вбив {other_robot.name}")
-                
+                write_log(f"{self.name} наніс 20 шкоди {other_robot.name}, у нього залишилось {other_robot.health} здоровя \n")
+        
 class MedicRobot(Robot):
     def __init__(self, name):
         super().__init__(name)

@@ -96,13 +96,8 @@ def take_random_target(list_of_robots: list['Robot'], attacker) -> "Robot":
     if not target: return None
     return random.choice(target)
 
-def take_random_WarRobot(list_of_robots: list['Robot']) -> "WarRobot":
-    wariors = [w for w in list_of_robots if type(w) is WarRobot]
+def take_random_War_Or_Medic_Robot(list_of_robots: list['Robot'], type_of_rob) -> "WarRobot":
+    wariors = [w for w in list_of_robots if type(w) is type_of_rob]
     if not wariors: return None
     return random.choice(wariors)
 
-def take_random_MedicRobot(list_of_robots: list['Robot']) -> "MedicRobot":
-    medics = [r for r in list_of_robots if type(r) is MedicRobot]
-    if not medics: return None
-    return random.choice(medics)
-   

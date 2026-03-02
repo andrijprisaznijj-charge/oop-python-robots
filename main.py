@@ -1,12 +1,18 @@
 # git init
 # git add . 
 # git commit -m
+# git push
 import time
 import os
 import random
 from colorama import init, Fore, Style
+from logger import start_battle, write_log
 from models import Robot, WarRobot, MedicRobot
-from storage import load_army_robot, save_army_robot, take_random_MedicRobot, take_random_WarRobot, take_alive_robots, take_random_target
+from storage import load_army_robot, save_army_robot, take_random_War_Or_Medic_Robot, take_alive_robots, take_random_target
+
+def write_log(message: str):
+    with open("battle_history.txt", "a", encoding="utf-8") as file:
+        file.write(f"{message} \n")
 
 init(autoreset=True)
 army: list[Robot] = load_army_robot()
@@ -24,31 +30,37 @@ time.sleep(1)
 
 round_num = 1
 
+start_battle()
 while True:
     alive_army = take_alive_robots(army)
     
     if len(alive_army) <= 1:
         if len(alive_army) == 1:
             print(Fore.CYAN + f"ПЕРЕМОЖЕЦЬ {alive_army[0]} \n")
+            write_log(f"ПЕРЕМОЖЕЦЬ {alive_army[0]} \n")
         else:
             print("Всі здохли... \n")
+            write_log("Всі здохли... \n")
         break
     
     print(Fore.YELLOW + f"РАУНД {round_num}. В ЖИВИХ ЛИШИЛОСЬ {len(alive_army)} \n")
+    write_log(f"РАУНД {round_num}. В ЖИВИХ ЛИШИЛОСЬ {len(alive_army)} \n")
     
-    attacker = take_random_WarRobot(alive_army)
+    attacker = take_random_War_Or_Medic_Robot(alive_army, WarRobot)
     if attacker:
         target = take_random_target(alive_army, attacker)
         if target:
             print(Fore.RED + f"{attacker.name} атакував {target.name} \n")
+            write_log(f"{attacker.name} атакував {target.name} \n")
             attacker.attack(target)
             
     if random.random() > 0.5:
-        medic = take_random_MedicRobot(alive_army)
+        medic = take_random_War_Or_Medic_Robot(alive_army, MedicRobot)
         if medic:
             target = take_random_target(alive_army, medic)
             if target:
                 print(Fore.GREEN + f"{medic.name} лікує {target.name} \n")
+                write_log(f"{medic.name} лікує {target.name} \n")
                 medic.heal_robot(target)
                 
     round_num += 1
